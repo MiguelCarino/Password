@@ -16,17 +16,17 @@
   <style>
     :root {
       --bg:           #050505;
-      --surface:      #0a0a0a;
-      --surface2:     #111111;
+      --surface:      #0b0b0b;
+      --surface2:     #0d0d0d;
       --accent:       #eab308;
       --accent-faint: rgba(234,179,8,0.05);
       --accent-glow:  rgba(234,179,8,0.15);
       --accent-dim:   rgba(234,179,8,0.3);
-      --border:       #1f1f1f;
+      --border:       #262626;
       --border-hv:    #2e2e2e;
       --text:         #ffffff;
-      --text-sec:     #c4c4c4;   /* guiding text — 11.7:1 on the page background */
-      --text-muted:   #8f8f8f;   /* placeholders and sub-labels — 6.3:1 */
+      --text-sec:     #a3a3a3;   /* guiding text */
+      --text-muted:   #666666;   /* placeholders and sub-labels */
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -40,34 +40,6 @@
       flex-direction: column;
       min-height: 100vh;
     }
-
-    /* ─── CS HEADER ─────────────────────────────────────────── */
-    .cs-header {
-      height: 70px; flex-shrink: 0;
-      background: linear-gradient(180deg, #0f0f0f 0%, #050505 100%);
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 28px; gap: 12px; z-index: 100;
-    }
-    .cs-left { display: flex; align-items: center; gap: 14px; }
-    .cs-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-    .cs-page-name {
-      font-family: 'Red Hat Display', sans-serif;
-      font-size: 1.4rem; font-weight: 900; line-height: 1;
-      background: linear-gradient(130deg, #fef08a 0%, #eab308 50%, #b45309 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      white-space: nowrap;
-    }
-    .cs-info { display: flex; align-items: baseline; gap: 10px; border-left: 1px solid var(--border); padding-left: 14px; }
-    .cs-info-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 700; color: var(--text); text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap; }
-    .cs-info-desc  { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--text-muted); white-space: nowrap; }
-    .cs-icon-btn {
-      width: 32px; height: 32px; border: 1px solid var(--border); border-radius: 4px;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--text-muted); transition: 0.2s; text-decoration: none; background: transparent; cursor: pointer;
-    }
-    .cs-icon-btn:hover { border-color: var(--accent); color: #050505; background: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 12px var(--accent-glow); }
-    .cs-icon-btn svg { width: 15px; height: 15px; }
 
     /* ─── PAGE ──────────────────────────────────────────────── */
     .page-body { flex: 1; display: flex; justify-content: center; padding: 2.5rem 1.5rem; overflow-y: auto; }
@@ -141,7 +113,7 @@
     .check-label:hover { border-color: var(--accent-dim); color: var(--text); }
     .check-label input { display: none; }
     .check-label .chk {
-      width: 15px; height: 15px; border: 1.5px solid #2e2e2e; border-radius: 3px;
+      width: 15px; height: 15px; border: 1.5px solid var(--border-hv); border-radius: 3px;
       flex-shrink: 0; display: flex; align-items: center; justify-content: center;
       font-size: 10px; font-weight: 900; color: transparent; transition: 0.15s;
     }
@@ -218,7 +190,6 @@
     }
 
     @media (max-width: 600px) {
-      .cs-info-desc { display: none; }
       .page-body { padding: 1.5rem 1rem; }
       .password-box { font-size: 1rem; }
       .main-tabs { gap: 16px; }
@@ -346,7 +317,6 @@
     LENGTHS.forEach((p, i) => {
       const b = document.createElement('button');
       b.className = 'preset' + (i === chosen ? ' active' : '');
-      b.innerHTML = '';
       b.appendChild(document.createTextNode(p.label));
       const s = document.createElement('small');
       s.textContent = p.note;
