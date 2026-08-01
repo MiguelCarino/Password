@@ -203,33 +203,33 @@
   <div class="container">
 
     <div class="main-tabs">
-      <button class="main-tab active" id="tabMake" onclick="goTab('password')">Generate a password</button>
-      <button class="main-tab"        id="tabSend" onclick="goTab('send')">Send a password</button>
-      <button class="main-tab"        id="tabOpen" onclick="goTab('open')">Discover a password</button>
+      <button class="main-tab active" id="tabMake" onclick="goTab('password')" data-i18n>Generate a password</button>
+      <button class="main-tab"        id="tabSend" onclick="goTab('send')" data-i18n>Send a password</button>
+      <button class="main-tab"        id="tabOpen" onclick="goTab('open')" data-i18n>Discover a password</button>
     </div>
 
     <!-- ─── MAKE ONE ─────────────────────────────────────────── -->
     <div class="view" id="viewMake">
 
       <div class="password-box" id="passwordOutput" title="Click to copy" onclick="copyPassword()">…</div>
-      <p class="box-hint">Click to copy — it copies even while hidden.</p>
+      <p class="box-hint" data-i18n>Click to copy — it copies even while hidden.</p>
 
       <div class="controls">
-        <button class="btn" onclick="newPassword()">Make another</button>
-        <button class="btn solid" onclick="sendThis()">Send this safely →</button>
+        <button class="btn" onclick="newPassword()" data-i18n>Make another</button>
+        <button class="btn solid" onclick="sendThis()" data-i18n>Send this safely →</button>
         <button class="btn plain" id="pwToggle" onclick="togglePw()">Show</button>
       </div>
 
       <div>
-        <div class="opt-label">How long?</div>
+        <div class="opt-label" data-i18n>How long?</div>
         <div class="presets" id="presets"></div>
       </div>
 
       <label class="check-label active" id="simpleLabel">
         <input type="checkbox" id="lettersOnly" checked onchange="syncCheck(this); newPassword()">
-        <span class="chk"></span>Letters and numbers only
+        <span class="chk"></span><span data-i18n>Letters and numbers only</span>
       </label>
-      <p class="box-hint" style="margin-top:-14px; text-align:left">
+      <p class="box-hint" style="margin-top:-14px; text-align:left" data-i18n>
         Turn this off to add symbols, if the website accepts them.
       </p>
 
@@ -248,18 +248,18 @@
       </div>
 
       <div style="margin-top:-8px">
-        <button class="btn small solid" onclick="goTab('open')">Receiving one instead? →</button>
+        <button class="btn small solid" onclick="goTab('open')" data-i18n>Receiving one instead? →</button>
       </div>
 
       <div id="sendError" class="note bad hidden"></div>
       <div id="parts" style="display:flex; flex-direction:column; gap:14px"></div>
 
-      <p class="box-hint hidden" id="sendHow" style="text-align:left; margin-top:-4px">
+      <p class="box-hint hidden" id="sendHow" style="text-align:left; margin-top:-4px" data-i18n>
         Send each part a different way — one by email, one by text.
         One part on its own gives nothing away.
       </p>
 
-      <p class="advanced">Need more parts? <a href="https://hash.carino.systems/#share">Full version</a>.</p>
+      <p class="advanced"><span data-i18n>Need more parts?</span> <a href="https://hash.carino.systems/#share" data-i18n>Full version</a>.</p>
 
     </div>
 
@@ -276,13 +276,13 @@
       <div id="openResult" class="hidden">
         <div class="recovered" id="openedText" title="Click to copy" onclick="copyOpened()"></div>
         <div style="display:flex; align-items:center; justify-content:center; gap:12px; margin-top:10px">
-          <span class="box-hint" style="margin:0">Click to copy — it copies even while hidden.</span>
+          <span class="box-hint" style="margin:0" data-i18n>Click to copy — it copies even while hidden.</span>
           <button class="btn plain small" id="openToggle" onclick="toggleOpened()">Show</button>
         </div>
       </div>
 
       <div id="openReset" class="hidden">
-        <button class="btn plain small" onclick="resetOpen()">Start over</button>
+        <button class="btn plain small" onclick="resetOpen()" data-i18n>Start over</button>
       </div>
 
     </div>
@@ -290,13 +290,16 @@
   </div>
 </div>
 
-<div id="toast" class="toast">Copied</div>
+<div id="toast" class="toast" data-i18n>Copied</div>
 
 <script src="carino-secrets.js"></script>
 <script>
   const CS  = window.CarinoSecrets;
   const $   = id => document.getElementById(id);
   const box = $('passwordOutput');
+  // Lazy i18n lookup: the dictionary script is deferred, so t() does not exist
+  // yet while this script runs — fall back to the English literal until it does.
+  const tt  = k => (typeof t === 'function' ? t(k) : k);
 
   /* ─── Making a password ─────────────────────────────────────────────── */
   // Ambiguous characters are always excluded: this password will be read off a
@@ -317,8 +320,12 @@
     LENGTHS.forEach((p, i) => {
       const b = document.createElement('button');
       b.className = 'preset' + (i === chosen ? ' active' : '');
-      b.appendChild(document.createTextNode(p.label));
+      const lbl = document.createElement('span');
+      lbl.setAttribute('data-i18n', '');
+      lbl.textContent = p.label;
+      b.appendChild(lbl);
       const s = document.createElement('small');
+      s.setAttribute('data-i18n', '');
       s.textContent = p.note;
       b.appendChild(s);
       b.onclick = () => {
@@ -348,7 +355,7 @@
 
   function paintPassword() {
     box.textContent = pwShown ? currentPassword : '•'.repeat(currentPassword.length);
-    $('pwToggle').textContent = pwShown ? 'Hide' : 'Show';
+    $('pwToggle').textContent = pwShown ? tt('Hide') : tt('Show');
   }
 
   function togglePw() { pwShown = !pwShown; paintPassword(); }
@@ -378,7 +385,7 @@
     const f = $('secretInput');
     const show = f.type === 'password';
     f.type = show ? 'text' : 'password';
-    $('sendToggle').textContent = show ? 'Hide' : 'Show';
+    $('sendToggle').textContent = show ? tt('Hide') : tt('Show');
   }
 
   let splitTimer = null;
@@ -406,10 +413,11 @@
       head.className = 'part-head';
       const num = document.createElement('span');
       num.className = 'part-num';
-      num.textContent = `Part ${s.index} of ${s.total}`;
+      num.dataset.partN = s.index; num.dataset.partM = s.total;
+      num.textContent = tt('Part {n} of {m}').replace('{n}', s.index).replace('{m}', s.total);
       const btn = document.createElement('button');
-      btn.className = 'btn small';
-      btn.textContent = 'Copy';
+      btn.className = 'btn small copy-btn';
+      btn.textContent = tt('Copy');
       btn.onclick = () => copy(s.text);
       head.append(num, btn);
 
@@ -435,7 +443,7 @@
 
   function paintOpened() {
     $('openedText').textContent = openedShown ? openedSecret : '•'.repeat(openedSecret.length);
-    $('openToggle').textContent = openedShown ? 'Hide' : 'Show';
+    $('openToggle').textContent = openedShown ? tt('Hide') : tt('Show');
   }
 
   function toggleOpened() { openedShown = !openedShown; paintOpened(); }
@@ -459,7 +467,9 @@
       const tick = document.createElement('span');
       tick.className = 'tick'; tick.textContent = '✓';
       const who = document.createElement('span');
-      who.className = 'who'; who.textContent = `Part ${s.x} of ${s.total}`;
+      who.className = 'who';
+      who.dataset.partN = s.x; who.dataset.partM = s.total;
+      who.textContent = tt('Part {n} of {m}').replace('{n}', s.x).replace('{m}', s.total);
       const code = document.createElement('span');
       code.className = 'code'; code.textContent = s.text;
       row.append(tick, who, code);
@@ -476,8 +486,8 @@
     box.setAttribute('autocapitalize', 'off');
     box.setAttribute('autocorrect', 'off');
     box.placeholder = openShares.length
-      ? `Got it — paste the next part (${openShares.length + 1} of ${needed})`
-      : 'Paste the first message you were sent';
+      ? tt('Got it — paste the next part ({n} of {m})').replace('{n}', openShares.length + 1).replace('{m}', needed)
+      : tt('Paste the first message you were sent');
     box.oninput = () => { clearTimeout(openTimer); openTimer = setTimeout(takeParts, 250); };
     wrap.appendChild(box);
     if (focus) box.focus();
@@ -497,9 +507,9 @@
       try { p = CS.parseShare(raw); }
       catch (e) { return fail('openError', e.message); }
       if (openShares.some(s => s.x === p.x))
-        return fail('openError', `part ${p.x} is already in — this looks like the same message pasted twice`);
+        return fail('openError', tt('part {n} is already in — this looks like the same message pasted twice').replace('{n}', p.x));
       if (openShares.length && (p.k !== openShares[0].k || p.y.length !== openShares[0].y.length))
-        return fail('openError', 'that part belongs to a different secret than the ones above');
+        return fail('openError', tt('that part belongs to a different secret than the ones above'));
       // A share encodes how many are NEEDED (k), not how many exist; on this
       // page splits are k-of-k, so k is also what the receipt rows display.
       openShares.push({ ...p, total: p.k, text: raw.toUpperCase() });
@@ -530,7 +540,7 @@
     const el = $(id);
     el.textContent = '';
     const b = document.createElement('b');
-    b.textContent = 'That did not work.';
+    b.textContent = tt('That did not work.');
     el.append(b, document.createTextNode(' ' + msg.charAt(0).toUpperCase() + msg.slice(1) + '.'));
     el.classList.remove('hidden');
   }
@@ -566,5 +576,6 @@
 </script>
 <script src="carino-navbar.js" data-app="Password" defer></script>
 <script src="carino-lang.js" defer></script>
+<script src="i18n.js" defer></script>
 </body>
 </html>
