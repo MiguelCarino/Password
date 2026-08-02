@@ -7,6 +7,10 @@
 
 const I18N = {
     es: {
+        'Late shift.': 'Turno nocturno.',
+        'Good morning.': 'Buenos días.',
+        'Good afternoon.': 'Buenas tardes.',
+        'Good evening.': 'Buenas noches.',
         // Tabs
         'Generate a password': 'Generar una contraseña',
         'Send a password': 'Enviar una contraseña',
@@ -48,6 +52,10 @@ const I18N = {
         'that part belongs to a different secret than the ones above': 'esa parte pertenece a un secreto distinto de las de arriba',
     },
     'pt-BR': {
+        'Late shift.': 'Turno da noite.',
+        'Good morning.': 'Bom dia.',
+        'Good afternoon.': 'Boa tarde.',
+        'Good evening.': 'Boa noite.',
         'Generate a password': 'Gerar uma senha',
         'Send a password': 'Enviar uma senha',
         'Discover a password': 'Descobrir uma senha',
@@ -84,6 +92,10 @@ const I18N = {
         'that part belongs to a different secret than the ones above': 'essa parte pertence a um segredo diferente das de cima',
     },
     ja: {
+        'Late shift.': '夜勤お疲れさま。',
+        'Good morning.': 'おはようございます。',
+        'Good afternoon.': 'こんにちは。',
+        'Good evening.': 'こんばんは。',
         'Generate a password': 'パスワードを生成',
         'Send a password': 'パスワードを送る',
         'Discover a password': 'パスワードを受け取る',
@@ -120,6 +132,10 @@ const I18N = {
         'that part belongs to a different secret than the ones above': 'そのパートは上のものとは別のシークレットのものです',
     },
     ru: {
+        'Late shift.': 'Ночная смена.',
+        'Good morning.': 'Доброе утро.',
+        'Good afternoon.': 'Добрый день.',
+        'Good evening.': 'Добрый вечер.',
         'Generate a password': 'Создать пароль',
         'Send a password': 'Отправить пароль',
         'Discover a password': 'Получить пароль',
