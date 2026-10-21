@@ -3,6 +3,8 @@
 Make a strong password, and send it to someone without it leaking →
 **[password.carino.systems](https://password.carino.systems)**
 
+![Password](screenshot.webp)
+
 This is the plain-language version, built for people who are not going to enjoy
 the words "threshold", "digest" or "GF(2⁸)". Three things, no jargon:
 
