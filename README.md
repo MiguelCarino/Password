@@ -12,10 +12,10 @@ the words "threshold", "digest" or "GF(2⁸)". Three things, no jargon:
 2. **Send it safely** — split it into two halves that are useless on their own.
 3. **Open what I was sent** — paste the two messages back together.
 
-The technical version, with arbitrary *k*-of-*n* splitting, digests and the
-algorithm walkthroughs, lives at
-**[hash.carino.systems](https://hash.carino.systems)**. Both sites share the same
-engine, so shares made on either one open on the other.
+**More control** (folded away under each tab) has the exact length (8–128), the
+character sets, the entropy maths, and *k*-of-*n* splitting with up to 10 parts.
+These used to live on hash.carino.systems, which is now a hashing course. Shares
+made by older versions of either site still open here.
 
 ## Why splitting, and not just sending the password
 
@@ -27,7 +27,8 @@ laptop. Chopping it into chunks does not help either: two thirds of a
 This uses **Shamir's Secret Sharing over GF(256)**. Any *k* parts rebuild the
 secret and any *k−1* reveal **nothing at all** — not the secret, not its length,
 not one character. That is information-theoretic, so the parts hold even against
-an attacker with unlimited computing power. The simple site always makes 2 of 2.
+an attacker with unlimited computing power. By default it makes 2 of 2; More
+control picks any number of parts and how many are needed.
 
 Each part is emitted as a **whole message**, not a bare code — it says which part
 it is, that another is coming, and where to open them. A recipient who has never

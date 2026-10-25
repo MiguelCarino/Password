@@ -34,107 +34,68 @@
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Password", "url": "https://password.carino.systems/", "description": "Make a strong password, and send it to someone safely. Everything happens in your browser.", "operatingSystem": "Any (runs in a web browser)", "isAccessibleForFree": true, "author": {"@type": "Person", "name": "Miguel Cariño", "url": "https://carino.systems/"}}</script>
   <!-- /carino:head -->
   <link rel="stylesheet" href="fonts/carino-fonts.css">
+  <link rel="stylesheet" href="carino-ui.css">
   <style>
+    /* Tokens and the shared components come from carino-ui.css. Only the
+       site's own extras are declared here. */
     :root {
-      --bg:           #050505;
-      --surface:      #0b0b0b;
-      --surface2:     #0d0d0d;
-      --accent:       #eab308;
-      --accent-faint: rgba(234,179,8,0.05);
-      --accent-glow:  rgba(234,179,8,0.15);
-      --accent-dim:   rgba(234,179,8,0.3);
-      --border:       #262626;
-      --border-hv:    #2e2e2e;
-      --text:         #ffffff;
-      --text-sec:     #a3a3a3;   /* guiding text */
-      --text-muted:   #8a8a8a;   /* placeholders and sub-labels */
+      --line-strong:  #2e2e2e;   /* dashed box and checkbox outlines */
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; }
-
-    body {
-      font-family: 'IBM Plex Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
+    body { display: flex; flex-direction: column; min-height: 100vh; }
+    p { margin: 0; }
 
     /* ─── PAGE ──────────────────────────────────────────────── */
-    .page-body { flex: 1; display: flex; justify-content: center; padding: 2.5rem 1.5rem; overflow-y: auto; }
-    .container { width: 100%; max-width: 680px; display: flex; flex-direction: column; gap: 22px; }
+    /* One column: three settings at most, so no rail. */
+    .col { width: min(720px, 100%); gap: 22px; }
 
-    .main-tabs { display: flex; gap: 22px; border-bottom: 1px solid var(--border); }
-    .main-tab {
-      background: transparent; border: none;
-      border-bottom: 2px solid transparent; margin-bottom: -1px;
-      color: var(--text-muted); padding: 0.55rem 0.15rem 0.7rem;
-      cursor: pointer; transition: 0.15s;
-      font-family: 'Red Hat Display', sans-serif;
-      font-size: 0.95rem; font-weight: 900;
-    }
-    .main-tab:hover { color: var(--text); }
-    .main-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-
+    .tabbar { flex-wrap: wrap; }
     .view { display: flex; flex-direction: column; gap: 22px; }
-    .hidden { display: none; }
+    .hidden { display: none !important; }
 
     /* ─── PASSWORD ──────────────────────────────────────────── */
     .password-box {
-      background: var(--surface);
-      border: 2px dashed var(--border-hv);
+      background: var(--bg-card);
+      border: 2px dashed var(--line-strong);
       border-radius: 8px;
       padding: 1.5rem 1.2rem;
-      font-family: 'IBM Plex Mono', monospace;
+      font-family: var(--mono);
       font-size: 1.35rem; font-weight: 700;
       word-break: break-all; cursor: pointer; text-align: center;
       transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
       letter-spacing: 0.05em;
     }
-    .password-box:hover { border-color: var(--accent); background: var(--surface2); box-shadow: 0 0 20px var(--accent-glow); }
+    .password-box:hover { border-color: var(--accent); background: var(--bg-elev); box-shadow: 0 0 20px var(--accent-glow); }
     .password-box:active { transform: scale(0.995); }
-    .box-hint { text-align: center; font-size: 0.78rem; color: var(--text-sec); margin-top: -14px; }
+    .box-hint { text-align: center; font-size: var(--fs-sm); color: var(--text-sec); margin-top: -14px; }
 
     .controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .btn.small { height: 30px; padding: 0 12px; }
 
-    .btn {
-      background: transparent; border: 1px solid var(--accent-dim); color: var(--accent);
-      padding: 0.6rem 1.2rem; border-radius: 5px; cursor: pointer;
-      font-family: 'IBM Plex Sans', sans-serif; font-size: 0.85rem; font-weight: 600;
-      transition: 0.2s; white-space: nowrap;
-    }
-    .btn:hover { background: var(--accent); color: #050505; box-shadow: 0 0 12px var(--accent-glow); }
-    .btn.plain { border-color: var(--border); color: var(--text-sec); }
-    .btn.plain:hover { background: var(--surface2); color: var(--text); border-color: var(--border-hv); box-shadow: none; }
-    .btn.small { padding: 0.4rem 0.8rem; font-size: 0.78rem; }
-    .btn.solid { background: var(--accent); border-color: var(--accent); color: #050505; font-weight: 700; }
-    .btn.solid:hover { background: #fbbf24; border-color: #fbbf24; box-shadow: 0 0 16px var(--accent-glow); }
-
-    .opt-label { font-size: 0.8rem; color: var(--text-sec); margin-bottom: 8px; }
+    .opt-label { font-size: var(--fs-sm); color: var(--text-sec); margin-bottom: 8px; }
 
     .presets { display: flex; gap: 8px; flex-wrap: wrap; }
     .preset {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 5px;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 5px;
       color: var(--text-sec); padding: 0.55rem 1rem; cursor: pointer; transition: 0.15s;
-      font-family: 'IBM Plex Sans', sans-serif; font-size: 0.85rem;
+      font-family: var(--sans); font-size: var(--fs-mono);
     }
     .preset:hover { border-color: var(--accent-dim); color: var(--text); }
     .preset.active { border-color: var(--accent); color: var(--accent); background: var(--accent-faint); }
-    .preset small { display: block; font-size: 0.68rem; color: var(--text-muted); margin-top: 2px; }
+    .preset small { display: block; font-size: var(--fs-label); color: var(--text-muted); margin-top: 2px; }
     .preset.active small { color: var(--accent); }
 
     .check-label {
-      display: inline-flex; align-items: center; gap: 9px; cursor: pointer;
-      background: var(--surface); border: 1px solid var(--border); border-radius: 5px;
-      padding: 0.55rem 0.9rem; font-size: 0.82rem; color: var(--text-sec);
+      display: inline-flex; align-items: center; gap: 9px; cursor: pointer; align-self: flex-start;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 5px;
+      padding: 0.55rem 0.9rem; font-size: var(--fs-sm); color: var(--text-sec);
       transition: 0.15s; user-select: none;
     }
     .check-label:hover { border-color: var(--accent-dim); color: var(--text); }
     .check-label input { display: none; }
     .check-label .chk {
-      width: 15px; height: 15px; border: 1.5px solid var(--border-hv); border-radius: 3px;
+      width: 15px; height: 15px; border: 1.5px solid var(--line-strong); border-radius: 3px;
       flex-shrink: 0; display: flex; align-items: center; justify-content: center;
       font-size: 10px; font-weight: 900; color: transparent; transition: 0.15s;
     }
@@ -143,45 +104,30 @@
     .check-label.active { border-color: var(--accent-dim); }
 
     /* ─── SEND / OPEN ───────────────────────────────────────── */
-    .field {
-      width: 100%; background: var(--surface); border: 1px solid var(--border);
-      border-radius: 5px; padding: 0.7rem 0.85rem; color: var(--text);
-      font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; line-height: 1.5;
-      resize: vertical; outline: none; transition: border-color 0.2s;
-    }
-    .field:focus { border-color: var(--accent-dim); }
-    .field::placeholder { color: var(--text-muted); font-family: 'IBM Plex Sans', sans-serif; }
+    .input, .textarea { font-size: max(16px, var(--fs-sm)); }   /* 16px: no zoom-on-focus on phones */
+    .input::placeholder, .textarea::placeholder { color: var(--text-muted); font-family: var(--sans); }
 
     .part {
-      background: var(--surface); border: 1px solid var(--border);
+      background: var(--bg-card); border: 1px solid var(--border);
       border-radius: 6px; overflow: hidden;
     }
     .part-head {
       display: flex; align-items: center; justify-content: space-between; gap: 10px;
-      padding: 0.6rem 0.85rem; background: var(--surface2); border-bottom: 1px solid var(--border);
+      padding: 0.6rem 0.85rem; background: var(--bg-elev); border-bottom: 1px solid var(--border);
     }
-    .part-num { font-size: 0.85rem; font-weight: 700; color: var(--accent); }
+    .part-num { font-size: var(--fs-mono); font-weight: 700; color: var(--accent); }
     .part-msg {
-      padding: 0.85rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
+      margin: 0; padding: 0.85rem; font-family: var(--mono); font-size: var(--fs-sm);
       line-height: 1.7; color: var(--text-sec); white-space: pre-wrap; word-break: break-all;
     }
     .part-msg .code { color: var(--text); font-weight: 700; }
 
-    .note {
-      background: var(--accent-faint); border-left: 2px solid var(--accent-dim);
-      border-radius: 0 5px 5px 0; padding: 0.85rem 1rem;
-      font-size: 0.85rem; line-height: 1.7; color: var(--text-sec);
-    }
-    .note b { color: var(--accent); font-weight: 600; }
-    .note.bad { background: rgba(239,68,68,0.06); border-left-color: rgba(239,68,68,0.45); }
-    .note.bad b { color: #ef4444; }
-
     .recovered {
-      background: var(--surface); border: 1px dashed var(--border-hv); border-radius: 6px;
-      padding: 1rem; font-family: 'IBM Plex Mono', monospace; font-size: 1.05rem;
+      background: var(--bg-card); border: 1px dashed var(--line-strong); border-radius: 6px;
+      padding: 1rem; font-family: var(--mono); font-size: 1.05rem;
       font-weight: 700; word-break: break-all; cursor: pointer; text-align: center;
     }
-    .recovered:hover { border-color: var(--accent); background: var(--surface2); }
+    .recovered:hover { border-color: var(--accent); background: var(--bg-elev); }
 
     /* A part that has been pasted and verified collapses into this receipt row. */
     .slot-done {
@@ -190,43 +136,63 @@
       border-radius: 5px; padding: 0.6rem 0.85rem;
     }
     .slot-done .tick { color: var(--accent); font-weight: 900; flex-shrink: 0; }
-    .slot-done .who  { font-size: 0.85rem; font-weight: 700; color: var(--text); white-space: nowrap; }
+    .slot-done .who  { font-size: var(--fs-mono); font-weight: 700; color: var(--text); white-space: nowrap; }
     .slot-done .code {
-      font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--text-muted);
+      font-family: var(--mono); font-size: var(--fs-label); color: var(--text-muted);
       overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;
     }
 
     .advanced {
       border-top: 1px solid var(--border); padding-top: 18px;
-      font-size: 0.82rem; color: var(--text-sec); line-height: 1.6;
+      font-size: var(--fs-sm); color: var(--text-sec); line-height: 1.6;
     }
     .advanced a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-dim); }
     .advanced a:hover { border-bottom-color: var(--accent); }
 
-    .toast {
-      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-      background: var(--accent); color: #050505; padding: 0.5rem 1.3rem;
-      border-radius: 20px; display: none; font-size: 0.85rem; font-weight: 700;
-      box-shadow: 0 4px 16px var(--accent-glow); z-index: 200;
-    }
+    .col > .privacy-line { border-top: 1px solid var(--border); padding-top: 14px; }
 
-    @media (max-width: 600px) {
-      .page-body { padding: 1.5rem 1rem; }
+    /* "More control": the exact settings that used to live on Hash */
+    .more { border: 1px solid var(--border); border-radius: 8px; background: var(--bg-card); }
+    .more > summary {
+      cursor: pointer; list-style: none; padding: 0.7rem 0.9rem;
+      font-size: var(--fs-sm); color: var(--text-sec); user-select: none;
+    }
+    .more > summary::-webkit-details-marker { display: none; }
+    .more > summary::before { content: "▸"; color: var(--accent); display: inline-block; margin-right: 8px; transition: transform .2s; }
+    .more[open] > summary::before { transform: rotate(90deg); }
+    .more > summary:hover { color: var(--text); }
+    .more-body { display: flex; flex-direction: column; gap: 16px; padding: 4px 0.9rem 1rem; }
+    .more-row { display: flex; align-items: center; gap: 10px 14px; flex-wrap: wrap; }
+    .more-row .field { flex-direction: row; align-items: center; gap: 8px; }
+    .more-row .select { width: auto; }
+    .len-range { display: flex; align-items: center; gap: 12px; font-size: var(--fs-sm); color: var(--text-sec); }
+    .len-range input { flex: 1; min-width: 0; accent-color: var(--accent); }
+    .len-range b { font-family: var(--mono); color: var(--accent); min-width: 3ch; text-align: right; }
+    .entropy { font-size: var(--fs-sm); color: var(--text-sec); line-height: 1.6; }
+    .entropy b { color: var(--text); }
+
+    @media (max-width: 640px) {
       .password-box { font-size: 1rem; }
-      .main-tabs { gap: 16px; }
-      .main-tab { font-size: 0.85rem; }
+      .toast { top: auto; bottom: 20px; right: 50%; transform: translate(50%, 10px); }
+      .toast.show { transform: translate(50%, 0); }
     }
   </style>
 </head>
 <body>
 
-<div class="page-body" role="main">
-  <div class="container">
+<main class="col">
 
-    <div class="main-tabs">
-      <button class="main-tab active" id="tabMake" onclick="goTab('password')" data-i18n>Generate a password</button>
-      <button class="main-tab"        id="tabSend" onclick="goTab('send')" data-i18n>Send a password</button>
-      <button class="main-tab"        id="tabOpen" onclick="goTab('open')" data-i18n>Discover a password</button>
+    <div class="short-hero rail-head">
+      <img class="mark" src="logo.svg" alt="" width="32" height="32">
+      <div><h1>Password</h1><p class="sh-lede" data-i18n>Make a strong password and send it safely.</p></div>
+    </div>
+
+    <!-- One tab per job. A new job is one more button here, one more .view
+         below and one more entry in ROUTES. -->
+    <div class="tabbar" role="tablist">
+      <button class="tabbtn active" id="tabMake" onclick="goTab('password')" data-i18n>Generate a password</button>
+      <button class="tabbtn"        id="tabSend" onclick="goTab('send')" data-i18n>Send a password</button>
+      <button class="tabbtn"        id="tabOpen" onclick="goTab('open')" data-i18n>Discover a password</button>
     </div>
 
     <!-- ─── MAKE ONE ─────────────────────────────────────────── -->
@@ -237,8 +203,8 @@
 
       <div class="controls">
         <button class="btn" onclick="newPassword()" data-i18n>Make another</button>
-        <button class="btn solid" onclick="sendThis()" data-i18n>Send this safely →</button>
-        <button class="btn plain" id="pwToggle" onclick="togglePw()">Show</button>
+        <button class="btn btn-primary" onclick="sendThis()" data-i18n>Send this safely →</button>
+        <button class="btn" id="pwToggle" onclick="togglePw()">Show</button>
       </div>
 
       <div>
@@ -254,6 +220,21 @@
         Turn this off to add symbols, if the website accepts them.
       </p>
 
+      <details class="more" id="genMore">
+        <summary data-i18n>More control: exact length and characters</summary>
+        <div class="more-body">
+          <label class="len-range"><span data-i18n>Length</span>
+            <input type="range" id="lenRange" min="8" max="128" value="8" oninput="setLength(+this.value)"><b id="lenVal">8</b></label>
+          <div class="more-row">
+            <label class="check-label active"><input type="checkbox" id="useUpper" checked onchange="syncCheck(this); newPassword()"><span class="chk"></span><span>A–Z</span></label>
+            <label class="check-label active"><input type="checkbox" id="useLower" checked onchange="syncCheck(this); newPassword()"><span class="chk"></span><span>a–z</span></label>
+            <label class="check-label active"><input type="checkbox" id="useDigits" checked onchange="syncCheck(this); newPassword()"><span class="chk"></span><span>0–9</span></label>
+            <label class="check-label active"><input type="checkbox" id="noLookalike" checked onchange="syncCheck(this); newPassword()"><span class="chk"></span><span data-i18n>Leave out look-alikes (0 O 1 l I)</span></label>
+          </div>
+          <p class="entropy" id="entropy"></p>
+        </div>
+      </details>
+
     </div>
 
     <!-- ─── SEND IT SAFELY ───────────────────────────────────── -->
@@ -262,17 +243,17 @@
       <!-- A real password input, so what is typed is masked by the browser
            itself; the toggle flips the input type, never a CSS illusion. -->
       <div style="display:flex; gap:10px">
-        <input class="field" type="password" id="secretInput" oninput="scheduleSplit()" style="flex:1"
+        <input class="input" type="password" id="secretInput" oninput="scheduleSplit()" style="flex:1"
                spellcheck="false" autocomplete="new-password" autocapitalize="off" autocorrect="off"
                placeholder="Type or paste the password you need to send">
-        <button class="btn plain" id="sendToggle" onclick="toggleSend()">Show</button>
+        <button class="btn" id="sendToggle" onclick="toggleSend()">Show</button>
       </div>
 
       <div style="margin-top:-8px">
-        <button class="btn small solid" onclick="goTab('open')" data-i18n>Receiving one instead? →</button>
+        <button class="btn small" onclick="goTab('open')" data-i18n>Receiving one instead? →</button>
       </div>
 
-      <div id="sendError" class="note bad hidden"></div>
+      <div id="sendError" class="alert err hidden"></div>
       <div id="parts" style="display:flex; flex-direction:column; gap:14px"></div>
 
       <p class="box-hint hidden" id="sendHow" style="text-align:left; margin-top:-4px" data-i18n>
@@ -280,7 +261,20 @@
         One part on its own gives nothing away.
       </p>
 
-      <p class="advanced"><span data-i18n>Need more parts?</span> <a href="https://hash.carino.systems/#share" data-i18n>Full version</a>.</p>
+      <details class="more" id="sendMore">
+        <summary data-i18n>More control: more parts, fewer needed</summary>
+        <div class="more-body">
+          <div class="more-row">
+            <label class="field"><span data-i18n>Parts</span> <select class="select" id="partsTotal" onchange="syncNeeded(); scheduleSplit(0)"></select></label>
+            <label class="field"><span data-i18n>Needed to open</span> <select class="select" id="partsNeeded" onchange="scheduleSplit(0)"></select></label>
+          </div>
+          <label class="check-label" id="wrapLabel">
+            <input type="checkbox" id="wrapParts" onchange="syncCheck(this); scheduleSplit(0)"><span class="chk"></span><span data-i18n>Add a line of instructions to each part</span>
+          </label>
+          <div class="more-row"><button class="btn small" id="copyAllBtn" onclick="copyAll()" data-i18n>Copy all parts</button></div>
+          <p class="advanced" id="splitSpec"></p>
+        </div>
+      </details>
 
     </div>
 
@@ -292,26 +286,28 @@
            Pasting all the messages at once into the first box also works. -->
       <div id="slots" style="display:flex; flex-direction:column; gap:12px"></div>
 
-      <div id="openError" class="note bad hidden"></div>
+      <div id="openError" class="alert err hidden"></div>
 
       <div id="openResult" class="hidden">
         <div class="recovered" id="openedText" title="Click to copy" onclick="copyOpened()"></div>
         <div style="display:flex; align-items:center; justify-content:center; gap:12px; margin-top:10px">
           <span class="box-hint" style="margin:0" data-i18n>Click to copy — it copies even while hidden.</span>
-          <button class="btn plain small" id="openToggle" onclick="toggleOpened()">Show</button>
+          <button class="btn small" id="openToggle" onclick="toggleOpened()">Show</button>
         </div>
       </div>
 
       <div id="openReset" class="hidden">
-        <button class="btn plain small" onclick="resetOpen()" data-i18n>Start over</button>
+        <button class="btn small" onclick="resetOpen()" data-i18n>Start over</button>
       </div>
 
     </div>
 
-  </div>
-</div>
+    <!-- The CSP above (connect-src 'none') is what makes the second clause true. -->
+    <p class="privacy-line"><span><span data-i18n>Runs in your browser. Nothing you add here is uploaded.</span> <span class="pl-also" data-i18n>This page is not allowed to connect anywhere.</span></span></p>
 
-<div id="toast" class="toast" data-i18n>Copied</div>
+</main>
+
+<div id="toast" class="toast ok" role="status" data-i18n>Copied</div>
 
 <script src="carino-secrets.js"></script>
 <script>
@@ -325,16 +321,19 @@
   /* ─── Making a password ─────────────────────────────────────────────── */
   // Ambiguous characters are always excluded: this password will be read off a
   // screen and typed by hand, and 1/l/I costs more than the entropy is worth.
-  const ALPHA   = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz';
-  const DIGITS  = '23456789';
+  // "More control" can put them back, and pick the sets and the exact length.
+  const UPPER   = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const LOWER   = 'abcdefghijklmnopqrstuvwxyz';
+  const DIGITS  = '0123456789';
   const SYMBOLS = '!@#$%&*+-=?';
+  const LOOKALIKE = 'IiLlOo01';
   const LENGTHS = [
     { label: 'Easy',   len: 8,  note: '8 characters'  },
     { label: 'Good',   len: 12, note: '12 characters' },
     { label: 'Better', len: 20, note: '20 characters' },
     { label: 'Strong', len: 32, note: '32 characters' },
   ];
-  let chosen = 0;
+  let chosen = 0, length = LENGTHS[0].len;
 
   (function buildPresets() {
     const wrap = $('presets');
@@ -349,11 +348,7 @@
       s.setAttribute('data-i18n', '');
       s.textContent = p.note;
       b.appendChild(s);
-      b.onclick = () => {
-        chosen = i;
-        [...wrap.children].forEach((c, j) => c.classList.toggle('active', j === i));
-        newPassword();
-      };
+      b.onclick = () => setLength(p.len);
       wrap.appendChild(b);
     });
   })();
@@ -362,19 +357,53 @@
   // dots, so a screen share or a shoulder never sees it — but copying still works.
   let currentPassword = '', pwShown = false;
 
+  // A preset and the slider are two views of one length: a preset moves the
+  // slider, and a slider value that is not a preset clears the preset row.
+  function setLength(n) {
+    length = n;
+    chosen = LENGTHS.findIndex(p => p.len === n);
+    [...$('presets').children].forEach((c, j) => c.classList.toggle('active', j === chosen));
+    $('lenRange').value = n;
+    $('lenVal').textContent = n;
+    newPassword();
+  }
+
+  function charset() {
+    let set = ($('useUpper').checked ? UPPER : '') + ($('useLower').checked ? LOWER : '')
+            + ($('useDigits').checked ? DIGITS : '') + ($('lettersOnly').checked ? '' : SYMBOLS);
+    if ($('noLookalike').checked) set = [...set].filter(c => !LOOKALIKE.includes(c)).join('');
+    return set;
+  }
+
   function newPassword() {
-    let set = ALPHA + DIGITS;
-    if (!$('lettersOnly').checked) set += SYMBOLS;
-    const n = LENGTHS[chosen].len;
+    const set = charset(), n = length;
+    if (!set) {
+      currentPassword = '';
+      box.textContent = tt('Pick at least one kind of character.');
+      $('entropy').textContent = '';
+      return;
+    }
     const r = new Uint32Array(n);
     crypto.getRandomValues(r);
-    // Rejection-free modulo bias is negligible here (2^32 vs a ~57-char set),
+    // Rejection-free modulo bias is negligible here (2^32 vs a ~60-char set),
     // but draw fresh values rather than reusing any.
     currentPassword = Array.from(r, v => set[v % set.length]).join('');
     paintPassword();
+    paintEntropy();
+  }
+
+  // The maths behind "strong", shown under More control.
+  function paintEntropy() {
+    const set = charset(), n = length;
+    if (!set) return;
+    const each = Math.log2(set.length), bits = n * each;
+    $('entropy').innerHTML = tt('<b>About {bits} bits of entropy</b>: {n} characters, each one of {k} (about {each} bits apiece), drawn with crypto.getRandomValues. Guessing it takes 2<sup>{half}</sup> tries on average.')
+      .replace('{bits}', bits.toFixed(0)).replace('{n}', n).replace('{k}', set.length)
+      .replace('{each}', each.toFixed(2)).replace('{half}', (bits - 1).toFixed(0));
   }
 
   function paintPassword() {
+    if (!currentPassword) return;
     box.textContent = pwShown ? currentPassword : '•'.repeat(currentPassword.length);
     $('pwToggle').textContent = pwShown ? tt('Hide') : tt('Show');
   }
@@ -390,8 +419,9 @@
     if (!text) return;
     navigator.clipboard.writeText(text).then(() => {
       const t = $('toast');
-      t.style.display = 'block';
-      setTimeout(() => { t.style.display = 'none'; }, 1400);
+      t.classList.add('show');
+      clearTimeout(copy.timer);
+      copy.timer = setTimeout(() => { t.classList.remove('show'); }, 1400);
     });
   }
 
@@ -422,11 +452,15 @@
     const secret = $('secretInput').value;
     if (!secret) return;                       // empty box: clear, don't scold
 
+    const n = +$('partsTotal').value, k = +$('partsNeeded').value;
     let shares;
-    try { shares = await CS.split(secret, 2, 2); }
+    try { shares = await CS.split(secret, n, k); }
     catch (e) { return fail('sendError', e.message); }
 
-    shares.forEach(s => {
+    const wrap = $('wrapParts').checked;
+    lastParts = shares.map(s => wrap ? CS.message(s, 'https://password.carino.systems/#open') : s.text);
+
+    shares.forEach((s, i) => {
       const card = document.createElement('div');
       card.className = 'part';
 
@@ -437,20 +471,42 @@
       num.dataset.partN = s.index; num.dataset.partM = s.total;
       num.textContent = tt('Part {n} of {m}').replace('{n}', s.index).replace('{m}', s.total);
       const btn = document.createElement('button');
-      btn.className = 'btn small copy-btn';
+      btn.className = 'copy-btn';
       btn.textContent = tt('Copy');
-      btn.onclick = () => copy(s.text);
+      btn.onclick = () => copy(lastParts[i]);
       head.append(num, btn);
 
       const body = document.createElement('pre');
       body.className = 'part-msg';
-      body.textContent = s.text;
+      body.textContent = lastParts[i];
 
       card.append(head, body);
       parts.appendChild(card);
     });
 
     $('sendHow').classList.remove('hidden');
+    $('splitSpec').textContent = (n === k
+      ? tt('All {n} parts are needed to open it. Lose one and the password is gone.')
+      : tt('Any {k} of the {n} parts open it. {f} or fewer give away nothing, not even its length.').replace('{f}', k - 1))
+      .replace('{n}', n).replace('{k}', k);
+  }
+
+  let lastParts = [];
+  function copyAll() { if (lastParts.length) copy(lastParts.join('\n\n')); }
+
+  // Parts: 2 to CS.MAX_SHARES; needed: 2 up to the number of parts.
+  (function buildPartSelects() {
+    const t = $('partsTotal');
+    for (let i = 2; i <= CS.MAX_SHARES; i++) t.add(new Option(i, i));
+    t.value = 2;
+    syncNeeded();
+  })();
+
+  function syncNeeded() {
+    const total = +$('partsTotal').value, sel = $('partsNeeded'), prev = +sel.value || 2;
+    sel.textContent = '';
+    for (let i = 2; i <= total; i++) sel.add(new Option(i, i));
+    sel.value = Math.min(prev, total);
   }
 
   /* ─── Opening what you were sent ──────────────────────────────────────
@@ -489,8 +545,10 @@
       tick.className = 'tick'; tick.textContent = '✓';
       const who = document.createElement('span');
       who.className = 'who';
-      who.dataset.partN = s.x; who.dataset.partM = s.total;
-      who.textContent = tt('Part {n} of {m}').replace('{n}', s.x).replace('{m}', s.total);
+      // A part says how many are needed, not how many exist, so the row
+      // names the part alone: with 2 of 5, part 4 is still "Part 4".
+      who.dataset.partX = s.x;
+      who.textContent = tt('Part {n}').replace('{n}', s.x);
       const code = document.createElement('span');
       code.className = 'code'; code.textContent = s.text;
       row.append(tick, who, code);
@@ -501,7 +559,7 @@
     if (needed && openShares.length >= needed) return;   // solved — no more boxes
 
     const box = document.createElement('textarea');
-    box.className = 'field'; box.rows = 3; box.id = 'partBox';
+    box.className = 'textarea'; box.rows = 3; box.id = 'partBox';
     box.spellcheck = false;
     box.setAttribute('autocomplete', 'off');
     box.setAttribute('autocapitalize', 'off');
@@ -531,9 +589,7 @@
         return fail('openError', tt('part {n} is already in — this looks like the same message pasted twice').replace('{n}', p.x));
       if (openShares.length && (p.k !== openShares[0].k || p.y.length !== openShares[0].y.length))
         return fail('openError', tt('that part belongs to a different secret than the ones above'));
-      // A share encodes how many are NEEDED (k), not how many exist; on this
-      // page splits are k-of-k, so k is also what the receipt rows display.
-      openShares.push({ ...p, total: p.k, text: raw.toUpperCase() });
+      openShares.push({ ...p, text: raw.toUpperCase() });
     }
 
     if (openShares.length >= openShares[0].k) {
@@ -592,7 +648,7 @@
 
   window.addEventListener('hashchange', applyRoute);
   applyRoute();
-  newPassword();
+  setLength(LENGTHS[0].len);
   renderSlots();
 </script>
 <script src="carino-navbar.js" data-app="Password" data-repo="Password" defer></script>

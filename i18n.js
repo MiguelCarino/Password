@@ -38,8 +38,6 @@ const I18N = {
         'Part {n} of {m}': 'Parte {n} de {m}',
         'Copy': 'Copiar',
         'Send each part a different way — one by email, one by text. One part on its own gives nothing away.': 'Envía cada parte por un medio distinto: una por correo, otra por mensaje. Una parte sola no revela nada.',
-        'Need more parts?': '¿Necesitas más partes?',
-        'Full version': 'Versión completa',
         // Open view
         'Paste the first message you were sent': 'Pega el primer mensaje que te enviaron',
         'Got it — paste the next part ({n} of {m})': 'Recibida. Pega la siguiente parte ({n} de {m})',
@@ -50,6 +48,23 @@ const I18N = {
         'That did not work.': 'Eso no funcionó.',
         'part {n} is already in — this looks like the same message pasted twice': 'la parte {n} ya está: parece el mismo mensaje pegado dos veces',
         'that part belongs to a different secret than the ones above': 'esa parte pertenece a un secreto distinto de las de arriba',
+        "Runs in your browser. Nothing you add here is uploaded.": "Funciona en tu navegador. Nada de lo que añades aquí se sube.",
+        "Make a strong password and send it safely.": "Crea una contraseña segura y envíala de forma segura.",
+        "This page is not allowed to connect anywhere.": "Esta página no tiene permiso para conectarse a ningún sitio.",
+        // More control (moved here from Hash)
+        'More control: exact length and characters': 'Más control: longitud exacta y caracteres',
+        'Length': 'Longitud',
+        'Leave out look-alikes (0 O 1 l I)': 'Sin caracteres parecidos (0 O 1 l I)',
+        'Pick at least one kind of character.': 'Elige al menos un tipo de carácter.',
+        '<b>About {bits} bits of entropy</b>: {n} characters, each one of {k} (about {each} bits apiece), drawn with crypto.getRandomValues. Guessing it takes 2<sup>{half}</sup> tries on average.': '<b>Unos {bits} bits de entropía</b>: {n} caracteres, cada uno entre {k} (unos {each} bits cada uno), elegidos con crypto.getRandomValues. Adivinarla lleva de media 2<sup>{half}</sup> intentos.',
+        'More control: more parts, fewer needed': 'Más control: más partes, menos necesarias',
+        'Parts': 'Partes',
+        'Needed to open': 'Necesarias para abrir',
+        'Add a line of instructions to each part': 'Añadir una línea de instrucciones a cada parte',
+        'Copy all parts': 'Copiar todas las partes',
+        'All {n} parts are needed to open it. Lose one and the password is gone.': 'Se necesitan las {n} partes para abrirla. Si pierdes una, la contraseña se pierde.',
+        'Any {k} of the {n} parts open it. {f} or fewer give away nothing, not even its length.': 'Cualquier {k} de las {n} partes la abren. {f} o menos no revelan nada, ni siquiera su longitud.',
+        'Part {n}': 'Parte {n}',
     },
     'pt-BR': {
         'Late shift.': 'Turno da noite.',
@@ -80,8 +95,6 @@ const I18N = {
         'Part {n} of {m}': 'Parte {n} de {m}',
         'Copy': 'Copiar',
         'Send each part a different way — one by email, one by text. One part on its own gives nothing away.': 'Envie cada parte por um meio diferente: uma por e-mail, outra por mensagem. Uma parte sozinha não revela nada.',
-        'Need more parts?': 'Precisa de mais partes?',
-        'Full version': 'Versão completa',
         'Paste the first message you were sent': 'Cole a primeira mensagem que você recebeu',
         'Got it — paste the next part ({n} of {m})': 'Recebida. Cole a próxima parte ({n} de {m})',
         'Start over': 'Começar de novo',
@@ -90,6 +103,23 @@ const I18N = {
         'That did not work.': 'Isso não funcionou.',
         'part {n} is already in — this looks like the same message pasted twice': 'a parte {n} já está aqui: parece a mesma mensagem colada duas vezes',
         'that part belongs to a different secret than the ones above': 'essa parte pertence a um segredo diferente das de cima',
+        "Runs in your browser. Nothing you add here is uploaded.": "Roda no seu navegador. Nada do que você adiciona aqui é enviado.",
+        "Make a strong password and send it safely.": "Crie uma senha forte e envie com segurança.",
+        "This page is not allowed to connect anywhere.": "Esta página não tem permissão para se conectar a lugar nenhum.",
+        // More control (moved here from Hash)
+        'More control: exact length and characters': 'Mais controle: tamanho exato e caracteres',
+        'Length': 'Tamanho',
+        'Leave out look-alikes (0 O 1 l I)': 'Sem caracteres parecidos (0 O 1 l I)',
+        'Pick at least one kind of character.': 'Escolha pelo menos um tipo de caractere.',
+        '<b>About {bits} bits of entropy</b>: {n} characters, each one of {k} (about {each} bits apiece), drawn with crypto.getRandomValues. Guessing it takes 2<sup>{half}</sup> tries on average.': '<b>Cerca de {bits} bits de entropia</b>: {n} caracteres, cada um entre {k} (cerca de {each} bits cada), sorteados com crypto.getRandomValues. Adivinhar leva em média 2<sup>{half}</sup> tentativas.',
+        'More control: more parts, fewer needed': 'Mais controle: mais partes, menos necessárias',
+        'Parts': 'Partes',
+        'Needed to open': 'Necessárias para abrir',
+        'Add a line of instructions to each part': 'Adicionar uma linha de instruções a cada parte',
+        'Copy all parts': 'Copiar todas as partes',
+        'All {n} parts are needed to open it. Lose one and the password is gone.': 'As {n} partes são necessárias para abrir. Perca uma e a senha se perde.',
+        'Any {k} of the {n} parts open it. {f} or fewer give away nothing, not even its length.': 'Quaisquer {k} das {n} partes abrem. {f} ou menos não revelam nada, nem o tamanho.',
+        'Part {n}': 'Parte {n}',
     },
     ja: {
         'Late shift.': '夜勤お疲れさま。',
@@ -120,8 +150,6 @@ const I18N = {
         'Part {n} of {m}': 'パート {n} / {m}',
         'Copy': 'コピー',
         'Send each part a different way — one by email, one by text. One part on its own gives nothing away.': '各パートは別々の方法で送ってください。1つはメール、もう1つはSMSなど。パート1つだけでは何も分かりません。',
-        'Need more parts?': 'もっとパートが必要？',
-        'Full version': 'フル版',
         'Paste the first message you were sent': '受け取った最初のメッセージを貼り付け',
         'Got it — paste the next part ({n} of {m})': '受け付けました。次のパートを貼り付け ({n} / {m})',
         'Start over': 'やり直す',
@@ -130,6 +158,23 @@ const I18N = {
         'That did not work.': 'うまくいきませんでした。',
         'part {n} is already in — this looks like the same message pasted twice': 'パート {n} はすでに入力済みです。同じメッセージを2回貼り付けたようです',
         'that part belongs to a different secret than the ones above': 'そのパートは上のものとは別のシークレットのものです',
+        "Runs in your browser. Nothing you add here is uploaded.": "ブラウザ内で動作します。ここに追加したものはアップロードされません。",
+        "Make a strong password and send it safely.": "強力なパスワードを作り、安全に送れます。",
+        "This page is not allowed to connect anywhere.": "このページはどこにも接続できないよう設定されています。",
+        // More control (moved here from Hash)
+        'More control: exact length and characters': '詳細設定：長さと文字の種類',
+        'Length': '長さ',
+        'Leave out look-alikes (0 O 1 l I)': '紛らわしい文字を除く (0 O 1 l I)',
+        'Pick at least one kind of character.': '文字の種類を1つ以上選んでください。',
+        '<b>About {bits} bits of entropy</b>: {n} characters, each one of {k} (about {each} bits apiece), drawn with crypto.getRandomValues. Guessing it takes 2<sup>{half}</sup> tries on average.': '<b>約 {bits} ビットのエントロピー</b>：{k} 種類から選んだ {n} 文字（1文字あたり約 {each} ビット）、crypto.getRandomValues で生成。推測には平均 2<sup>{half}</sup> 回かかります。',
+        'More control: more parts, fewer needed': '詳細設定：パートを増やし、必要数を減らす',
+        'Parts': 'パート数',
+        'Needed to open': '開くのに必要な数',
+        'Add a line of instructions to each part': '各パートに説明を1行付ける',
+        'Copy all parts': '全パートをコピー',
+        'All {n} parts are needed to open it. Lose one and the password is gone.': '開くには {n} パートすべてが必要です。1つでも失うとパスワードは復元できません。',
+        'Any {k} of the {n} parts open it. {f} or fewer give away nothing, not even its length.': '{n} パートのうち任意の {k} つで開けます。{f} つ以下では長さも含め何も分かりません。',
+        'Part {n}': 'パート {n}',
     },
     ru: {
         'Late shift.': 'Ночная смена.',
@@ -160,8 +205,6 @@ const I18N = {
         'Part {n} of {m}': 'Часть {n} из {m}',
         'Copy': 'Копировать',
         'Send each part a different way — one by email, one by text. One part on its own gives nothing away.': 'Отправьте каждую часть разными способами: одну по почте, другую сообщением. Одна часть сама по себе ничего не раскрывает.',
-        'Need more parts?': 'Нужно больше частей?',
-        'Full version': 'Полная версия',
         'Paste the first message you were sent': 'Вставьте первое полученное сообщение',
         'Got it — paste the next part ({n} of {m})': 'Принято. Вставьте следующую часть ({n} из {m})',
         'Start over': 'Начать заново',
@@ -170,6 +213,23 @@ const I18N = {
         'That did not work.': 'Не получилось.',
         'part {n} is already in — this looks like the same message pasted twice': 'часть {n} уже добавлена — похоже, одно и то же сообщение вставлено дважды',
         'that part belongs to a different secret than the ones above': 'эта часть относится к другому секрету, чем части выше',
+        "Runs in your browser. Nothing you add here is uploaded.": "Работает в вашем браузере. Ничего из добавленного сюда не загружается.",
+        "Make a strong password and send it safely.": "Создайте надёжный пароль и безопасно передайте его.",
+        "This page is not allowed to connect anywhere.": "Этой странице запрещено подключаться куда-либо.",
+        // More control (moved here from Hash)
+        'More control: exact length and characters': 'Больше настроек: точная длина и символы',
+        'Length': 'Длина',
+        'Leave out look-alikes (0 O 1 l I)': 'Без похожих символов (0 O 1 l I)',
+        'Pick at least one kind of character.': 'Выберите хотя бы один вид символов.',
+        '<b>About {bits} bits of entropy</b>: {n} characters, each one of {k} (about {each} bits apiece), drawn with crypto.getRandomValues. Guessing it takes 2<sup>{half}</sup> tries on average.': '<b>Около {bits} бит энтропии</b>: {n} символов, каждый из {k} (около {each} бит на символ), выбраны через crypto.getRandomValues. Чтобы угадать, нужно в среднем 2<sup>{half}</sup> попыток.',
+        'More control: more parts, fewer needed': 'Больше настроек: больше частей, меньше нужно',
+        'Parts': 'Частей',
+        'Needed to open': 'Нужно для открытия',
+        'Add a line of instructions to each part': 'Добавить строку инструкций к каждой части',
+        'Copy all parts': 'Копировать все части',
+        'All {n} parts are needed to open it. Lose one and the password is gone.': 'Для открытия нужны все {n} части. Потеряете одну — пароль не восстановить.',
+        'Any {k} of the {n} parts open it. {f} or fewer give away nothing, not even its length.': 'Любые {k} из {n} частей открывают его. {f} или меньше не выдают ничего, даже длину.',
+        'Part {n}': 'Часть {n}',
     },
 };
 
@@ -212,6 +272,10 @@ function applyDynamicI18n() {
     if (sendToggle && secretInput)
         sendToggle.textContent = secretInput.type === 'password' ? t('Show') : t('Hide');
 
+    document.querySelectorAll('[data-part-x]').forEach((el) => {
+        el.textContent = t('Part {n}').replace('{n}', el.dataset.partX);
+    });
+    if (typeof paintEntropy === 'function') paintEntropy();
     document.querySelectorAll('[data-part-n]').forEach((el) => {
         el.textContent = t('Part {n} of {m}')
             .replace('{n}', el.dataset.partN).replace('{m}', el.dataset.partM);
