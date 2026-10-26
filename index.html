@@ -318,6 +318,36 @@
   // yet while this script runs — fall back to the English literal until it does.
   const tt  = k => (typeof t === 'function' ? t(k) : k);
 
+  // carino-secrets.js throws plain English sentences. Match them back to their
+  // dictionary keys ({n}/{k} stand for the numbers) so the alert is translated.
+  const SECRET_ERRORS = [
+    'one of the parts contains an invalid character',
+    'every part must start with CS1-',
+    'one of the parts is incomplete',
+    'one of the parts was mistyped — check it character by character',
+    'one of the parts uses an unknown format (v{n})',
+    'one of the parts is damaged',
+    'there is nothing to split yet',
+    'pick between 2 and {n} parts',
+    'the number needed cannot exceed the number of parts',
+    'keep it under {n} bytes — this is built for keys and passwords, not documents',
+    'paste the parts first — each one starts with CS1-',
+    'these parts are different sizes — they come from different secrets',
+    'part {n} was pasted twice — each part must be different',
+    'this needs {k} parts and you have {n} — the missing ones cannot be guessed',
+    'these parts do not belong together — each is well-formed, but they are from different secrets',
+  ];
+  function trError(msg) {
+    for (const key of SECRET_ERRORS) {
+      const names = [];
+      const re = new RegExp('^' + key.replace(/[.*+?^$()|[\]\\]/g, '\\$&')
+        .replace(/\{(n|k)\}/g, (_, v) => { names.push(v); return '(\\d+)'; }) + '$');
+      const m = msg.match(re);
+      if (m) return names.reduce((out, v, i) => out.replace('{' + v + '}', m[i + 1]), tt(key));
+    }
+    return msg;
+  }
+
   /* ─── Making a password ─────────────────────────────────────────────── */
   // Ambiguous characters are always excluded: this password will be read off a
   // screen and typed by hand, and 1/l/I costs more than the entropy is worth.
@@ -458,7 +488,7 @@
     catch (e) { return fail('sendError', e.message); }
 
     const wrap = $('wrapParts').checked;
-    lastParts = shares.map(s => wrap ? CS.message(s, 'https://password.carino.systems/#open') : s.text);
+    lastParts = shares.map(s => wrap ? wrapMessage(s, 'https://password.carino.systems/#open') : s.text);
 
     shares.forEach((s, i) => {
       const card = document.createElement('div');
@@ -492,6 +522,15 @@
   }
 
   let lastParts = [];
+  // Same wording as CS.message, in the page language. The receiving page only
+  // reads the CS1- line, so the instruction lines can be in any language.
+  function wrapMessage(s, url) {
+    const head = s.needed === s.total
+      ? tt('Part {n} of {m} — you need all {m} parts, sent separately.')
+      : tt('Part {n} of {m} — you need {k} of the {m} parts, sent separately.');
+    return head.replace('{n}', s.index).replace(/\{m\}/g, s.total).replace('{k}', s.needed)
+      + '\n' + s.text + '\n' + tt('Open them together at: {url}').replace('{url}', url);
+  }
   function copyAll() { if (lastParts.length) copy(lastParts.join('\n\n')); }
 
   // Parts: 2 to CS.MAX_SHARES; needed: 2 up to the number of parts.
@@ -618,7 +657,8 @@
     el.textContent = '';
     const b = document.createElement('b');
     b.textContent = tt('That did not work.');
-    el.append(b, document.createTextNode(' ' + msg.charAt(0).toUpperCase() + msg.slice(1) + '.'));
+    msg = trError(msg);
+    el.append(b, document.createTextNode(' ' + msg.charAt(0).toUpperCase() + msg.slice(1) + (/[.。]$/.test(msg) ? '' : (/[\u3040-\u30ff\u4e00-\u9fff]$/.test(msg) ? '。' : '.'))));
     el.classList.remove('hidden');
   }
 
