@@ -33,6 +33,24 @@
   <script type="application/json" id="carino-head-i18n">{"es": {"title": "Generador de contraseñas seguras y para compartir | Carino", "desc": "Crea una contraseña segura y envíasela a alguien de forma segura. Todo ocurre en tu navegador."}, "pt-BR": {"title": "Gerador de senhas fortes — compartilhe com segurança | Carino", "desc": "Crie uma senha forte e envie para alguém com segurança. Tudo acontece no navegador."}, "ja": {"title": "強力なパスワード生成・安全に共有 | Carino", "desc": "強力なパスワードを作成して、安全に相手へ送信。すべてブラウザ内で完結。"}, "ru": {"title": "Генератор надёжных паролей и безопасная передача | Carino", "desc": "Создайте надёжный пароль и безопасно передайте его другому человеку. Всё происходит в браузере."}}</script>
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Password", "url": "https://password.carino.systems/", "description": "Make a strong password, and send it to someone safely. Everything happens in your browser.", "operatingSystem": "Any (runs in a web browser)", "isAccessibleForFree": true, "author": {"@type": "Person", "name": "Miguel Cariño", "url": "https://carino.systems/"}}</script>
   <!-- /carino:head -->
+  <!-- Theme before first paint, so neither theme flashes the other:
+       ?theme=gold|color (review links; not stored) > carino-theme cookie
+       (shared across *.carino.systems) > localStorage > Gold & Black. -->
+  <meta name="theme-color" content="#050505" id="carinoThemeColor">
+  <script>
+  (function () {
+    var d = document.documentElement, t = null;
+    function pick(v) { return v === 'gold' ? 'gold' : (v === 'color' || v === 'colour') ? 'color' : null; }
+    try { t = pick(new URLSearchParams(location.search).get('theme')); } catch (e) {}
+    if (!t) { try { var m = document.cookie.match(/(?:^|;\s*)carino-theme=([^;]*)/); if (m) t = pick(decodeURIComponent(m[1])); } catch (e) {} }
+    if (!t) { try { t = pick(localStorage.getItem('carino-theme')); } catch (e) {} }
+    t = t || 'gold';
+    d.setAttribute('data-carino-theme', t);
+    var dark = d.getAttribute('data-theme') !== 'light' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches;
+    var meta = document.getElementById('carinoThemeColor');
+    if (meta) meta.content = t === 'gold' ? '#050505' : (dark ? '#0e1420' : '#eef3fc');
+  })();
+  </script>
   <link rel="stylesheet" href="fonts/carino-fonts.css">
   <link rel="stylesheet" href="carino-ui.css">
   <style>
@@ -177,13 +195,27 @@
       .toast.show { transform: translate(50%, 0); }
     }
   </style>
+  <!-- Colourful theme + the switch; nothing applies until data-carino-theme="color". -->
+  <link rel="stylesheet" href="carino-theme.css">
+  <style>
+    /* the hero mark in both colourings; the theme picks one */
+    .short-hero .mark.mk-color, :root[data-carino-theme="color"] .short-hero .mark.mk-gold { display: none; }
+    :root[data-carino-theme="color"] .short-hero .mark.mk-color { display: block; }
+    /* Colourful: carino-theme.css remaps the tokens, so everything that reads
+       one follows; these are the values above written for black. */
+    :root[data-carino-theme="color"] { --line-strong: var(--text-muted); }
+    :root[data-carino-theme="color"] body { background-image: var(--stage-grad); background-attachment: fixed; }
+    :root[data-carino-theme="color"] .check-label input:checked + .chk { color: var(--ct-on-accent); }
+    :root[data-carino-theme="color"] .password-box:hover { box-shadow: var(--ct-shadow-2); }
+  </style>
 </head>
 <body>
 
 <main class="col">
 
     <div class="short-hero rail-head">
-      <img class="mark" src="logo.svg" alt="" width="32" height="32">
+      <img class="mark mk-gold" src="logo.svg" alt="" width="32" height="32">
+      <img class="mark mk-color" src="logo-color.svg" alt="" width="32" height="32">
       <div><h1>Password</h1><p class="sh-lede" data-i18n>Make a strong password and send it safely.</p></div>
     </div>
 
@@ -692,6 +724,7 @@
   renderSlots();
 </script>
 <script src="carino-navbar.js" data-app="Password" data-repo="Password" defer></script>
+<script src="carino-theme.js" data-mark="logo.svg" data-mark-color="logo-color.svg" defer></script>
 <script src="carino-lang.js" defer></script>
 <script src="i18n.js" defer></script>
 </body>
