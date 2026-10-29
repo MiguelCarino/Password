@@ -205,6 +205,12 @@
     :root[data-carino-theme="color"] body { background-image: var(--stage-grad); background-attachment: fixed; }
     :root[data-carino-theme="color"] .check-label input:checked + .chk { color: var(--ct-on-accent); }
     :root[data-carino-theme="color"] .password-box:hover { box-shadow: var(--ct-shadow-2); }
+    /* each split part goes out by a different channel: one hue per part, numeral only (no edge) */
+    :root[data-carino-theme="color"] #parts .part:nth-child(4n+1) { --pc: var(--ct-purple); }
+    :root[data-carino-theme="color"] #parts .part:nth-child(4n+2) { --pc: color-mix(in srgb, var(--ct-teal) 75%, var(--text)); }
+    :root[data-carino-theme="color"] #parts .part:nth-child(4n+3) { --pc: var(--ct-pink); }
+    :root[data-carino-theme="color"] #parts .part:nth-child(4n+4) { --pc: var(--ct-indigo); }
+    :root[data-carino-theme="color"] #parts .part .part-num { color: var(--pc); }
   </style>
 </head>
 <body>
