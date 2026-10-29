@@ -198,9 +198,6 @@
   <!-- Colourful theme + the switch; nothing applies until data-carino-theme="color". -->
   <link rel="stylesheet" href="carino-theme.css">
   <style>
-    /* the hero mark in both colourings; the theme picks one */
-    .short-hero .mark.mk-color, :root[data-carino-theme="color"] .short-hero .mark.mk-gold { display: none; }
-    :root[data-carino-theme="color"] .short-hero .mark.mk-color { display: block; }
     /* Colourful: carino-theme.css remaps the tokens, so everything that reads
        one follows; these are the values above written for black. */
     :root[data-carino-theme="color"] { --line-strong: var(--text-muted); }
@@ -214,8 +211,6 @@
 <main class="col">
 
     <div class="short-hero rail-head">
-      <img class="mark mk-gold" src="logo.svg" alt="" width="32" height="32">
-      <img class="mark mk-color" src="logo-color.svg" alt="" width="32" height="32">
       <div><h1>Password</h1><p class="sh-lede" data-i18n>Make a strong password and send it safely.</p></div>
     </div>
 
